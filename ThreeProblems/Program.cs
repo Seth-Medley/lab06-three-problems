@@ -13,20 +13,23 @@ using System.Dynamic;
 
 /// Menu 
 int choice = 0;
-Random rng = new Random(4000);
 const int SEED = 4000;
 const int NUM_SCORES = 5;
 const int PASSING_GRADE = 60;
+Random rng = new Random(SEED);
 
-
+do // The menu must display at least once before the user can choose to quit.
+{
+System.Console.WriteLine("=== CSCI 1250 Lab 06 ===");
 System.Console.WriteLine("1. The Grade Checker");
 System.Console.WriteLine("2. The Dice Table");
 System.Console.WriteLine("3. The Score Report");
 System.Console.WriteLine("4. All three");
 System.Console.WriteLine("5. Quit");
 
+Console.Write("Choose 1 through 5: ");
 choice = Convert.ToInt32(System.Console.ReadLine());
-while (choice < 1 || choice > 5)
+while (choice < 1 || choice > 5) // Repeats until they give a valid choice number.
 {
     Console.WriteLine("Choose a number from 1 to 5.");
     Console.Write("Choose 1 through 5: ");
@@ -38,9 +41,9 @@ while (choice < 1 || choice > 5)
 if (choice == 1 || choice == 4) {
     System.Console.WriteLine("=== Exercise 1: The Grade Checker ===");
 
-    System.Console.WriteLine("What is your score?");
+    System.Console.Write("Score: ");
     int score = Convert.ToInt32(System.Console.ReadLine());
-    while(score < 0 || score > 100)
+    while(score < 0 || score > 100)  //The program cannot proceed until the user enters a valid score between 0 and 100.
     {
         System.Console.WriteLine("A score must be between 0 and 100.");
         System.Console.Write("Score: ");
@@ -67,7 +70,7 @@ if (choice == 2 || choice == 4) {
     int winCounter = 0;
     int rollCounter = 0;
     string keepRolling = "";
-     do
+     do // Has to run at least once before asking if they want to roll again.
     {
     int die1 = rng.Next(1,7);
     int die2 = rng.Next(1,7);
@@ -96,7 +99,7 @@ if (choice == 3 || choice == 4) {
  System.Console.WriteLine("=== Exercise 3: The Score Report ===");
 
  int[] scores = new int[NUM_SCORES];
- for (int i = 0; i < scores.Length; i++)
+ for (int i = 0; i < scores.Length; i++) // I need the index variable 'i' so I can print the different cores in the prompt.
     {
         Console.Write($"Score {i+1}: ");
         scores[i] = Convert.ToInt32(Console.ReadLine());
@@ -123,7 +126,9 @@ if (choice == 3 || choice == 4) {
 
     Console.WriteLine($"Scores entered: {scores.Length}");
     Console.WriteLine($"Total: {total}");
-    Console.WriteLine($"Average {average:F1}");
+    Console.WriteLine($"Average: {average:F1}");
     Console.WriteLine($"Highest: {highest}");
     Console.WriteLine($"Passing: {passing} of {scores.Length}");
 } 
+} while(choice != 5);
+System.Console.WriteLine("Goodbye.");
