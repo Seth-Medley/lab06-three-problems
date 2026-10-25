@@ -8,10 +8,16 @@
 * practices decisions and one of the four loops.
 */
 ///////////////////////////////////////////
-/// Menu 
 /////////////////////////////////////
+using System.Dynamic;
+
+/// Menu 
 int choice = 0;
 Random rng = new Random(4000);
+const int SEED = 4000;
+const int NUM_SCORES = 5;
+const int PASSING_GRADE = 60;
+
 
 System.Console.WriteLine("1. The Grade Checker");
 System.Console.WriteLine("2. The Dice Table");
@@ -19,16 +25,18 @@ System.Console.WriteLine("3. The Score Report");
 System.Console.WriteLine("4. All three");
 System.Console.WriteLine("5. Quit");
 
-System.Console.WriteLine("Choose 1 through 5: 7");
-System.Console.WriteLine("Choose a number from 1 to 5.");
-System.Console.WriteLine("Choose 1 through 5: 3");
-
 choice = Convert.ToInt32(System.Console.ReadLine());
+while (choice < 1 || choice > 5)
+{
+    Console.WriteLine("Choose a number from 1 to 5.");
+    Console.Write("Choose 1 through 5: ");
+    choice = Convert.ToInt32(Console.ReadLine());
+}
 /////////////////////////////////////////////
 /// Choices
 //////////////////////////////
 if (choice == 1 || choice == 4) {
-    System.Console.WriteLine("=== Exersice 1: The Grade Checker ===");
+    System.Console.WriteLine("=== Exercise 1: The Grade Checker ===");
 
     System.Console.WriteLine("What is your score?");
     int score = Convert.ToInt32(System.Console.ReadLine());
@@ -55,18 +63,17 @@ if (choice == 1 || choice == 4) {
     }
 }
 if (choice == 2 || choice == 4) {
-    System.Console.WriteLine("=== Exersice 2: The Dice Table ===");
+    System.Console.WriteLine("=== Exercise 2: The Dice Table ===");
     int winCounter = 0;
     int rollCounter = 0;
     string keepRolling = "";
-
-    rollCounter++;
      do
     {
     int die1 = rng.Next(1,7);
     int die2 = rng.Next(1,7);
     int total = die1 + die2;
-        if (die1 == 1 && die2 == 1)
+    rollCounter++;
+    if (die1 == 1 && die2 == 1)
     {
         Console.WriteLine($"Roll {rollCounter}: {die1} and {die2}, total {total}. Snake eyes.");
     } else if (die1 == die2)
@@ -75,8 +82,9 @@ if (choice == 2 || choice == 4) {
     } else if (total == 7 || total == 11)
     {
         winCounter++;
-        rollCounter++;
         Console.WriteLine($"Roll {rollCounter}: {die1} and {die2}, total {total}. A winner.");
+    } else {
+             Console.WriteLine($"Roll {rollCounter}: {die1} and {die2}, total {total}.");
     }
 
     Console.Write("Roll again? (y/n): ");
@@ -85,5 +93,37 @@ if (choice == 2 || choice == 4) {
     Console.WriteLine($"You rolled {rollCounter} times and won {winCounter}.");
 }
 if (choice == 3 || choice == 4) {
-    // Exersize 3
-}
+ System.Console.WriteLine("=== Exercise 3: The Score Report ===");
+
+ int[] scores = new int[NUM_SCORES];
+ for (int i = 0; i < scores.Length; i++)
+    {
+        Console.Write($"Score {i+1}: ");
+        scores[i] = Convert.ToInt32(Console.ReadLine());
+    }
+
+    int total = 0;
+    int highest = 0;
+    int passing = 0;
+
+    foreach (int score in scores) // I need to process every score in the array.
+    {
+        total +=score;
+        if (score > highest)
+        {
+            highest = score;
+        }
+        if (score >= PASSING_GRADE)
+        {
+            passing++;
+        }
+    }
+
+    double average = (double)total / scores.Length;
+
+    Console.WriteLine($"Scores entered: {scores.Length}");
+    Console.WriteLine($"Total: {total}");
+    Console.WriteLine($"Average {average:F1}");
+    Console.WriteLine($"Highest: {highest}");
+    Console.WriteLine($"Passing: {passing} of {scores.Length}");
+} 
